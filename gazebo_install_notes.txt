@@ -1,0 +1,49 @@
+
+
+Gazebo Fortress (Ignition Fortress) LTS installation on Ubuntu 22.04.3 LTS (Jammy Jellyfish)
+-----------------------------------
+
+$ sudo apt-get update
+
+$ sudo apt-get install lsb-release gnupg
+
+$ sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+
+$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+
+$ sudo apt-get update
+
+$ sudo apt-get install ignition-fortress
+
+
+Uninstalling Gazebo
+---------------------
+
+$ sudo apt remove ignition-fortress && sudo apt autoremove
+
+
+Getting Started
+-----------------
+
+$ ign gazebo shapes.sdf
+
+or with debugging, run
+
+$ ign gazebo shapes.sdf -v 4
+
+
+Retry Gazebo install after uninstall
+--------------------
+$ sudo apt-get install ros-humble-ros-gz
+
+Fixing Error:
+[GUI] [Err] [Application.cc:801] [QT] Failed to create OpenGL context for format QSurfaceFormat(version 2.0, options QFlags<QSurfaceFormat::FormatOption>(), depthBufferSize 24, redBufferSize -1, greenBufferSize -1, blueBufferSize -1, alphaBufferSize -1, stencilBufferSize 8, samples -1, swapBehavior QSurfaceFormat::DoubleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile) 
+
+# sudo mv /usr/lib/insync/./libstdc++.so.6 /usr/lib/insync/./libstdc++.so.6.bak
+
+[Solution]: Restarted computer then
+
+$ ign gazebo shapes.sdf
+
+
+

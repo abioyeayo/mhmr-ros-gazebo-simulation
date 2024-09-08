@@ -1,0 +1,94 @@
+
+
+ROS 2 (Humble Hawksbill) Installation on Ubuntu 22.04.3 LTS (Jammy Jellyfish)
+-----------------------------------
+
+$ sudo apt install software-properties-common
+
+$ sudo add-apt-repository universe
+
+$ sudo apt update && sudo apt install curl -y
+
+$ sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+$ sudo apt update
+
+$ sudo apt upgrade
+
+$ sudo apt install ros-humble-desktop
+
+$ sudo apt install ros-dev-tools
+
+$ # Replace ".bash" with your shell if you're not using bash
+$ # Possible values are: setup.bash, setup.sh, setup.zsh
+$ source /opt/ros/humble/setup.bash
+
+
+Talker-listener example
+----------------------
+
+Terminal 1:
+	$ source /opt/ros/humble/setup.bash
+	$ ros2 run demo_nodes_cpp talker
+	
+Terminal 2:
+	$ source /opt/ros/humble/setup.bash
+	$ ros2 run demo_nodes_py listener
+	
+
+Uninstalling ROS 2
+----------------------
+
+$ sudo apt remove ~nros-humble-* && sudo apt autoremove
+
+$ sudo rm /etc/apt/sources.list.d/ros2.list
+
+$ sudo apt update
+
+$ sudo apt autoremove
+
+$ # Consider upgrading for packages previously shadowed.
+$ sudo apt upgrade
+
+
+Configuring environments
+-------------------------
+
+$ printenv | grep -i ROS
+
+
+
+Installing turtlesim
+---------------------
+
+$ sudo apt update
+
+$ sudo apt install ros-humble-turtlesim
+
+$ ros2 pkg executables turtlesim
+
+Terminal 1:
+	$ ros2 run turtlesim turtlesim_node
+	
+Terminal 2:
+	$ ros2 run turtlesim turtle_teleop_key
+
+
+Install rqt
+------------
+
+$ sudo apt update
+
+$ sudo apt install '~nros-humble-rqt*'
+
+$ rqt
+
+New Terminal:
+	$ ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2/cmd_vel
+
+
+
+
+

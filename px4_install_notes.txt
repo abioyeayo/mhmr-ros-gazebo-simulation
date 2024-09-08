@@ -1,0 +1,62 @@
+
+First install ROS 2 (Humble Hawksbill) and Gazebo Fortress (Ignition Fortress) LTS installation on Ubuntu 22.04.3 LTS (Jammy Jellyfish)
+
+
+$ git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+
+$ bash ./PX4-Autopilot/Tools/setup/ubuntu.sh
+
+$ cd /path/to/PX4-Autopilot
+
+$ make px4_sitl gz_x500
+
+
+If error:
+ - $ make distclean
+ - remove "g++--multilib\" and "gcc--multilib\" from "ubuntu.sh" file rerun the bash... cd.. and make... commands.
+------
+
+$ commander takeoff
+
+In new terminal, navigate to heartbeat folder if no QGroundControl or any ground control station (GCS) started, and start heartbeat
+$ python3 gcs_heartbeat.py
+
+$ mavlink start -x -u 14550 -f -p -t 10.5.3.80
+
+
+Multi-Vehicle Simulation with Gazebo
+---------------------
+https://docs.px4.io/main/en/sim_gazebo_gz/multi_vehicle_simulation.html
+
+$ cd /path/to/PX4-Autopilot
+
+$ make px4_sitl
+
+$ PX4_SYS_AUTOSTART=4001 PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 1
+
+$ PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="0,1" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 2
+
+$ PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="0,2" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 3
+
+
+
+Multi-Vehicle Simulation with JMAVSim
+---------------------
+https://docs.px4.io/main/en/sim_jmavsim/multi_vehicle.html
+
+Navigate to PX4-Autopilot folder
+$ cd /path/to/PX4-Autopilot
+
+Build PX4
+$ make px4_sitl_default
+
+Run sitl_multiple_run.sh, specifying the number of instances to start (e.g. 2):
+$ ./Tools/sitl_multiple_run.sh 2
+
+Start the first instance in the same terminal (this will run in the foreground):
+$ ./Tools/simulation/jmavsim/jmavsim_run.sh -l
+
+Open a new terminal for each subsequent instance, specifying the simulation TCP port for the instance:
+$ ./Tools/simulation/jmavsim/jmavsim_run.sh -p 4560 -l
+
+The port should be set to 4560+i where i iterates for each instance (from 0 to N-1)
