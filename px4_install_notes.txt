@@ -82,6 +82,15 @@ $ cd ..
 $ source /opt/ros/humble/setup.bash
 $ colcon build
 
+
+for packaging<24.0 run the following otherwise it would generate a build error: "TypeError: canonicalize_version() got an unexpected keyword argument 'strip_trailing_zero'"
+
+$ pip install -U packaging
+
+then re-run 
+$ colcon build
+
+
 Running the Example (in a new terminal)
 
 $ cd ~/ws_sensor_combined/
