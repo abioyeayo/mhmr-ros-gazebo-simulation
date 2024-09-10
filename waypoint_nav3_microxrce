@@ -171,3 +171,95 @@ if __name__ == '__main__':
 ### Summary
 
 This setup uses Micro XRCE-DDS Agent to interface directly with PX4 via the DDS-XRCE protocol, allowing you to send commands and waypoints without needing MAVROS. The provided ROS 2 node publishes control messages to set the UAV into offboard mode and guide it through specified waypoints. This approach is efficient for resource-constrained systems and leverages the native DDS-XRCE support in PX4, making it ideal for real-time UAV control scenarios.
+
+
+----------------------------
+
+The error "no executable found" usually occurs when the ROS 2 package has not been correctly built or the script hasn't been properly set up as an executable within the package. Here's how you can resolve this issue:
+
+### Step-by-Step Guide to Fix the Error
+
+1. **Ensure the Script is Marked as Executable**
+
+   The script `uav_waypoint_navigation.py` needs to be executable. To make the script executable, run:
+
+   ```bash
+   chmod +x ~/ros2_ws/src/uav_waypoint_navigation/uav_waypoint_navigation/uav_waypoint_navigation.py
+   ```
+
+2. **Edit `setup.py` to Include the Executable**
+
+   In your package's `setup.py`, ensure that the script is properly declared as an entry point. Here’s how the `setup.py` file should look:
+
+   ```python
+   from setuptools import setup
+
+   package_name = 'uav_waypoint_navigation'
+
+   setup(
+       name=package_name,
+       version='0.0.0',
+       packages=[package_name],
+       data_files=[
+           ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+           ('share/' + package_name, ['package.xml']),
+       ],
+       install_requires=['setuptools'],
+       zip_safe=True,
+       maintainer='Your Name',
+       maintainer_email='your.email@example.com',
+       description='UAV waypoint navigation using ROS 2 and Micro XRCE-DDS Agent',
+       license='Apache License 2.0',
+       tests_require=['pytest'],
+       entry_points={
+           'console_scripts': [
+               'uav_waypoint_navigation = uav_waypoint_navigation.uav_waypoint_navigation:main',
+           ],
+       },
+   )
+   ```
+
+   Ensure the `entry_points` section correctly maps the script's location and the `main` function.
+
+3. **Verify Package Structure**
+
+   Your package should have the following structure:
+
+   ```
+   ~/ros2_ws/src/uav_waypoint_navigation/
+   ├── package.xml
+   ├── setup.py
+   ├── resource/
+   ├── uav_waypoint_navigation/
+   │   ├── __init__.py
+   │   └── uav_waypoint_navigation.py
+   ```
+
+   Make sure the `__init__.py` file exists in the `uav_waypoint_navigation` directory (it can be empty). This makes the directory recognizable as a Python package.
+
+4. **Rebuild the Package**
+
+   After making changes, rebuild your ROS 2 workspace:
+
+   ```bash
+   cd ~/ros2_ws
+   colcon build --packages-select uav_waypoint_navigation
+   source install/setup.bash
+   ```
+
+5. **Run the Script**
+
+   Now, try running the script again:
+
+   ```bash
+   ros2 run uav_waypoint_navigation uav_waypoint_navigation
+   ```
+
+### Common Troubleshooting Tips
+
+- **Check for Typos**: Ensure there are no typos in the `entry_points` section of `setup.py`.
+- **Re-source the Environment**: After building, always source the workspace: `source install/setup.bash`.
+- **Check Permissions**: Verify that the script has the correct executable permissions using `ls -l`.
+
+These steps should help resolve the "no executable found" error and ensure that your ROS 2 node runs correctly.
