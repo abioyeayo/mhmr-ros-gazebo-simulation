@@ -263,3 +263,33 @@ The error "no executable found" usually occurs when the ROS 2 package has not be
 - **Check Permissions**: Verify that the script has the correct executable permissions using `ls -l`.
 
 These steps should help resolve the "no executable found" error and ensure that your ROS 2 node runs correctly.
+
+
+-------------------------
+
+Installing px4_msg first:
+
+$ cd ~/ros2_ws/src/
+
+$ git clone https://github.com/PX4/px4_msgs.git
+$ git clone https://github.com/PX4/px4_ros_com.git
+
+$ cd ..
+$ source /opt/ros/humble/setup.bash
+$ colcon build
+
+
+Running the Example (in a new terminal)
+
+$ cd ~/ros2_ws/
+$ source /opt/ros/humble/setup.bash
+$ source install/local_setup.bash
+
+$ ros2 launch px4_ros_com sensor_combined_listener.launch.py
+
+ROS 2 CLI
+$ ros2 topic list
+$ ros2 topic echo /fmu/out/vehicle_status
+
+
+--------------------------
