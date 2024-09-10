@@ -50,6 +50,8 @@ make px4_sitl gazebo
 
 Create a new ROS 2 package to control the UAV using DDS-XRCE:
 
+In ~/ros2_ws/src folder, run the following in terminal
+
 ```bash
 ros2 pkg create uav_waypoint_navigation --build-type ament_python --dependencies rclpy
 ```
