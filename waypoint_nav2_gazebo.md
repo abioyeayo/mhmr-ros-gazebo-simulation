@@ -220,4 +220,15 @@ if __name__ == '__main__':
    ```bash
    cd ~/ros2_ws
    colcon build --packages-select uav_waypoint_navigation
-   source install/setup.b
+   source install/setup.bash
+   ```
+
+2. **Run the script**:
+
+   ```bash
+   ros2 run uav_waypoint_navigation uav_waypoint_navigation.py
+   ```
+
+### Summary
+
+This setup allows you to control a UAV in a Gazebo Fortress simulation using ROS 2, PX4 SITL, and MAVROS. The UAV will follow the defined waypoints, demonstrating waypoint navigation in a simulated environment. Ensure that all dependencies are correctly installed and the communication between ROS 2, PX4, and MAVROS is functioning as expected for smooth operation.

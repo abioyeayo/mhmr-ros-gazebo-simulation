@@ -100,6 +100,14 @@ $ source install/local_setup.bash
 
 $ ros2 launch px4_ros_com sensor_combined_listener.launch.py
 
+ROS 2 CLI
+$ ros2 topic list
+$ ros2 topic echo /fmu/out/vehicle_status
+
+Missing dependencies
+$ sudo apt install python3-colcon-common-extensions
+$ sudo apt install ros-humble-eigen3-cmake-module
+
 
 
 Multi-Vehicle Simulation with Gazebo
