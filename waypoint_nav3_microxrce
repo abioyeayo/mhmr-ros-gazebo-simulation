@@ -466,7 +466,7 @@ Here's the modified script with the logic to check if the UAV has reached the cu
 
 import rclpy
 from rclpy.node import Node
-from px4_msgs.msg import VehicleCommand, TrajectorySetpoint, OffboardControlMode, Timesync, VehicleOdometry
+from px4_msgs.msg import VehicleCommand, TrajectorySetpoint, OffboardControlMode, VehicleOdometry #, Timesync 
 import math
 
 
@@ -484,9 +484,9 @@ class UAVWaypointNavigator(Node):
         )
 
         # Subscribers
-        self.timesync_sub = self.create_subscription(
-            Timesync, "/fmu/out/timesync", self.timesync_callback, 10
-        )
+        # self.timesync_sub = self.create_subscription(
+        #     Timesync, "/fmu/out/timesync", self.timesync_callback, 10
+        # )
         self.odometry_sub = self.create_subscription(
             VehicleOdometry, "/fmu/out/vehicle_odometry", self.odometry_callback, 10
         )
@@ -507,9 +507,9 @@ class UAVWaypointNavigator(Node):
         # Timer to send control commands
         self.create_timer(0.1, self.control_loop)
 
-    def timesync_callback(self, msg):
-        # Update timestamp to sync with PX4
-        self.timestamp = msg.timestamp
+    # def timesync_callback(self, msg):
+    #     # Update timestamp to sync with PX4
+    #     self.timestamp = msg.timestamp
 
     def odometry_callback(self, msg):
         # Update current position based on VehicleOdometry data
