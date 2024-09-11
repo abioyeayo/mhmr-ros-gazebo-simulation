@@ -72,8 +72,8 @@ $ make px4_sitl gz_x500
 
 Build ROS 2 Workspace (in new terminal)
 
-$ mkdir -p ~/ws_sensor_combined/src/
-$ cd ~/ws_sensor_combined/src/
+$ mkdir -p ~/ros2_ws/src/
+$ cd ~/ros2_ws/src/
 
 $ git clone https://github.com/PX4/px4_msgs.git
 $ git clone https://github.com/PX4/px4_ros_com.git
@@ -93,7 +93,7 @@ $ colcon build
 
 Running the Example (in a new terminal)
 
-$ cd ~/ws_sensor_combined/
+$ cd ~/ros2_ws/
 $ source /opt/ros/humble/setup.bash
 
 $ source install/local_setup.bash
