@@ -1,0 +1,15 @@
+
+
+$ ign gazebo mhmr.sdf
+
+to run specific world and model simulations
+
+NB: gazebo_model folder required
+
+
+$ ign gazebo
+
+for running simulations from template that uses keyboard or screen button control.
+
+$ git clone https://github.com/osrf/gazebo_models
+
