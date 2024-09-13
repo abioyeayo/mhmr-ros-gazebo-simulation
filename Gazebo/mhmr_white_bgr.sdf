@@ -1,0 +1,305 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="default">
+
+    <!-- Include the default Sun and Ground Plane -->
+    <include>
+      <uri>file://gazebo_models/sun</uri>
+    </include>
+
+    <!-- <include>
+      <uri>file://gazebo_models/ground_plane</uri>
+    </include> -->
+    
+    <!-- Green Grass Ground Plane -->
+    <model name="grass_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grass</name>
+            </script>
+            <!-- <ambient>0.3 0.5 0.3 1</ambient> -->
+            <!-- <diffuse>0.3 0.5 0.3 1</diffuse> -->
+            <ambient>1.0 1.0 1.0 1</ambient>
+            <diffuse>1.0 1.0 1.0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- UAV Models -->
+    <model name="uav1">
+      <pose>-7 -7 1 0 0 0</pose>
+      <link name="base_link">
+        <visual name="uav_visual">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="uav_collision">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="uav2">
+      <pose>-8 -6 1 0 0 0</pose>
+      <link name="base_link">
+        <visual name="uav_visual">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="uav_collision">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="uav3">
+      <pose>-8 -8 1 0 0 0</pose>
+      <link name="base_link">
+        <visual name="uav_visual">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="uav_collision">
+          <geometry>
+            <mesh>
+              <uri>file://gazebo_models/quadrotor/meshes/quadrotor_base.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Yellow Cylinder Model -->
+    <model name="yellow_cylinder">
+      <pose>6 6 1 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="cylinder_collision">
+          <geometry>
+            <cylinder>
+              <radius>2.0</radius> <!-- cylinder radius -->
+              <length>2.0</length> <!-- Height of the cylinder -->
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name="cylinder_visual">
+          <geometry>
+            <cylinder>
+              <radius>2.0</radius> <!-- cylinder radius -->
+              <length>2.0</length> <!-- Height of the cylinder -->
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1.0 1.0 0.0 1</ambient> <!-- Yellow color -->
+            <diffuse>1.0 1.0 0.0 1</diffuse>
+            <specular>0.3 0.3 0.3 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Construction Cone Model -->
+    <model name="Construction Cone">
+      <pose>6 6 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>file://gazebo_models/construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>file://gazebo_models/construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+
+    <actor name="actor_walking">
+      <pose>-3 3 0 0 0 0</pose>
+      <skin>
+          <filename>file://gazebo_models/actor_walk/meshes/walk.dae</filename>
+          <scale>1.0</scale>
+      </skin>
+      <!-- Inner Shaded Region (Dark Red) -->
+      <link name="inner_shaded_region">
+        <visual name="inner_shaded_region_visual">
+          <geometry>
+            <cylinder>
+              <radius>1.0</radius> <!-- Inner radius -->
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.1 0.0 0.0 0.7</ambient> <!-- dark red with transparency -->
+            <diffuse>0.1 0.0 0.0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0.7</emissive>
+          </material>
+          <pose>0 0 0.015 0 0 0</pose> <!-- Slightly above the ground -->
+        </visual>
+      </link>
+      <!-- Outer Shaded Region (Lighter Orange) -->
+      <link name="outer_shaded_region">
+        <visual name="outer_shaded_region_visual">
+          <geometry>
+            <cylinder>
+              <radius>2.5</radius> <!-- Outer radius -->
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1.0 0.6 0.2 0.7</ambient> <!-- Lighter orange with transparency -->
+            <diffuse>1.0 0.6 0.2 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0.7</emissive>
+          </material>
+          <pose>0 0 0.01 0 0 0</pose> <!-- Slightly above the inner region -->
+        </visual>
+      </link>
+      <animation name="walk">
+          <filename>file://gazebo_models/actor_walk/meshes/walk.dae</filename>
+          <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <loop>true</loop>
+        <delay_start>0.000000</delay_start>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="walk" tension="0.6">
+            <waypoint>
+                <time>0</time>
+                <pose>0 0 1.0 0 0 0</pose>
+            </waypoint>
+            <waypoint>
+                <time>2</time>
+                <pose>2.0 0 1.0 0 0 0</pose>
+            </waypoint>
+            <waypoint>
+                <time>2.5</time>
+                <pose>2 0 1.0 0 0 1.57</pose>
+            </waypoint>
+            <waypoint>
+                <time>4</time>
+                <pose>2 2 1.0 0 0 1.57</pose>
+            </waypoint>
+            <waypoint>
+                <time>4.5</time>
+                <pose>2 2 1.0 0 0 3.142</pose>
+            </waypoint>
+            <waypoint>
+                <time>6</time>
+                <pose>0 2 1 0 0 3.142</pose>
+            </waypoint>
+            <waypoint>
+                <time>6.5</time>
+                <pose>0 2 1 0 0 -1.57</pose>
+            </waypoint>
+            <waypoint>
+                <time>8</time>
+                <pose>0 0 1.0 0 0 -1.57</pose>
+            </waypoint>
+            <waypoint>
+                <time>8.5</time>
+                <pose>0 0 1.0 0 0 0</pose>
+            </waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="actor_standing">
+      <pose>4 -5 0 0 0 1.57</pose>
+      <skin>
+          <filename>file://gazebo_models/actor_stand/meshes/stand.dae</filename>
+          <scale>1.0</scale>
+      </skin>
+
+      <!-- Inner Shaded Region (Dark Red) -->
+      <link name="inner_shaded_region">
+        <visual name="inner_shaded_region_visual">
+          <geometry>
+            <cylinder>
+              <radius>1.0</radius> <!-- Inner radius -->
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.1 0.0 0.0 0.7</ambient> <!-- dark red with transparency -->
+            <diffuse>0.1 0.0 0.0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0.7</emissive>
+          </material>
+          <pose>0 0 0.015 0 0 0</pose> <!-- Slightly above the ground -->
+        </visual>
+      </link>
+
+      <!-- Outer Shaded Region (Lighter Orange) -->
+      <link name="outer_shaded_region">
+        <visual name="outer_shaded_region_visual">
+          <geometry>
+            <cylinder>
+              <radius>2.5</radius> <!-- Outer radius -->
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1.0 0.6 0.2 0.7</ambient> <!-- Lighter orange with transparency -->
+            <diffuse>1.0 0.6 0.2 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0.7</emissive>
+          </material>
+          <pose>0 0 0.01 0 0 0</pose> <!-- Slightly above the inner region -->
+        </visual>
+      </link>
+
+    </actor>
+
+  </world>
+</sdf>
+
