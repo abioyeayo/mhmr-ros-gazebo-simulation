@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
         	'uav_waypoint_navigation = uav_waypoint_navigation.uav_waypoint_navigation:main',
+        	'uav_waypoint_processor_marl = uav_waypoint_navigation.uav_waypoint_processor_marl:main',
         ],
     },
 )

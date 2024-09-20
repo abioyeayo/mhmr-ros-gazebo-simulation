@@ -2,63 +2,66 @@
 
 import rclpy
 from rclpy.node import Node
-from px4_msgs.msg import VehicleCommand, TrajectorySetpoint, OffboardControlMode, VehicleOdometry
+from px4_msgs.msg import VehicleCommand, TrajectorySetpoint, OffboardControlMode, VehicleOdometry #, Timesync 
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 import math
-import sys
-import os
 
 
 class UAVWaypointNavigator(Node):
-    def __init__(self, uav_id, waypoints):
-        # Node name is dynamic based on UAV ID
-        node_name = f'px4_{uav_id}_waypoint_navigator'
-        super().__init__(node_name)
+    def __init__(self):
+        super().__init__('uav_waypoint_navigator')
 
-        # Namespace for the UAV (e.g., uav1, uav2, uav3)
-        self.namespace = f"/px4_{uav_id}"
-        self.uav_id = int(uav_id)
-        if self.uav_id == 0:
-            self.namespace = f""
-        # self.namespace = f"/px4_1"
-        # self.namespace = f""
-
-        # os.system('ros2 topic echo /px4_1/fmu/out/vehicle_status')
-
-        # Create publishers with the namespace
-        self.command_pub = self.create_publisher(VehicleCommand, f"{self.namespace}/fmu/in/vehicle_command", 10)
+        # Create publishers
+        self.command_pub = self.create_publisher(VehicleCommand, "/fmu/in/vehicle_command", 10)
         self.offboard_control_mode_pub = self.create_publisher(
-            OffboardControlMode, f"{self.namespace}/fmu/in/offboard_control_mode", 10
+            OffboardControlMode, "/fmu/in/offboard_control_mode", 10
         )
         self.trajectory_setpoint_pub = self.create_publisher(
-            TrajectorySetpoint, f"{self.namespace}/fmu/in/trajectory_setpoint", 10
+            TrajectorySetpoint, "/fmu/in/trajectory_setpoint", 10
         )
 
+        # Subscribers
+        # self.timesync_sub = self.create_subscription(
+        #     Timesync, "/fmu/out/timesync", self.timesync_callback, 10
+        # )
+        # self.odometry_sub = self.create_subscription(
+        #     VehicleOdometry, "/fmu/out/vehicle_odometry", self.odometry_callback, 10
+        # )
 
         # Define a QoS profile compatible with the publisher
         qos_profile = QoSProfile(
-            reliability=ReliabilityPolicy.BEST_EFFORT,
+            reliability=ReliabilityPolicy.BEST_EFFORT,  # Set to BEST_EFFORT to match the publisher's setting
             history=HistoryPolicy.KEEP_LAST,
-            depth=10
+            depth=10  # Set an appropriate queue size
         )
 
         # Update the subscriber with the new QoS profile
         self.odometry_sub = self.create_subscription(
             VehicleOdometry,
-            f"{self.namespace}/fmu/out/vehicle_odometry",
+            "/fmu/out/vehicle_odometry",
             self.odometry_callback,
             qos_profile
         )
 
         self.timestamp = 0  # Time synchronization with PX4
         self.current_position = (0.0, 0.0, 0.0)  # Current position of the UAV
-        self.current_waypoint_index = 0  # Index to track the current waypoint
+        self.current_waypoint_index = 0  # Index to track current waypoint
 
-        # Store waypoints passed via command-line arguments
-        self.waypoints = waypoints
+        # Define the square waypoints (x, y, z) in meters
+        self.waypoints = [
+            (0.0, 0.0, -5.0),  # Start position
+            (5.0, 0.0, -5.0),  # Move 5 meters to the east
+            (5.0, 5.0, -5.0),  # Move 5 meters to the north
+            (0.0, 5.0, -5.0),  # Move 5 meters to the west
+            (0.0, 0.0, -5.0)   # Return to start position
+        ]
 
         # Timer to send control commands
         self.create_timer(0.1, self.control_loop)
+
+    # def timesync_callback(self, msg):
+    #     # Update timestamp to sync with PX4
+    #     self.timestamp = msg.timestamp
 
     def odometry_callback(self, msg):
         # Update current position based on VehicleOdometry data
@@ -120,7 +123,6 @@ class UAVWaypointNavigator(Node):
         )
         
         self.get_logger().info(f"Current vehicle distance from target: {distance}")
-        self.get_logger().info(f"{self.namespace}/fmu/out/vehicle_odometry")
 
         return distance < tolerance
 
@@ -139,8 +141,7 @@ class UAVWaypointNavigator(Node):
         msg.param1 = param1
         msg.param2 = param2
         msg.command = command
-        # msg.target_system = 1
-        msg.target_system = self.uav_id + 1
+        msg.target_system = 1
         msg.target_component = 1
         msg.source_system = 1
         msg.source_component = 1
@@ -149,45 +150,13 @@ class UAVWaypointNavigator(Node):
         self.get_logger().info(f"Published vehicle command: {command}")
 
 
-def parse_waypoints(args):
-    """ Parse the waypoints from command line arguments """
-    waypoints = []
-    try:
-        # Expect waypoints in the form x1,y1,z1,x2,y2,z2,... as input
-        for i in range(0, len(args), 3):
-            waypoint = (float(args[i]), float(args[i+1]), float(args[i+2]))
-            waypoints.append(waypoint)
-    except (ValueError, IndexError):
-        print("Invalid waypoint arguments. Ensure they are in the form x1,y1,z1,x2,y2,z2,...")
-        sys.exit(1)
-    return waypoints
-
-
 def main(args=None):
-    # Initialize ROS 2
     rclpy.init(args=args)
-
-    # Expect UAV ID and waypoints from command line arguments
-    if len(sys.argv) < 5:
-        print("Usage: uav_waypoint_navigation.py <uav_id> <x1> <y1> <z1> [<x2> <y2> <z2> ...]")
-        sys.exit(1)
-
-    uav_id = sys.argv[1]  # UAV ID from arguments
-
-    
-    waypoints = parse_waypoints(sys.argv[2:])
-
-    # Instantiate the navigator node with UAV ID and parsed waypoints
-    navigator = UAVWaypointNavigator(uav_id, waypoints)
-
-    # Spin the node
+    navigator = UAVWaypointNavigator()
     rclpy.spin(navigator)
-
-    # Cleanup
     navigator.destroy_node()
     rclpy.shutdown()
 
 
 if __name__ == '__main__':
     main()
-

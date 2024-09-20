@@ -7,7 +7,7 @@ Install the  Micro XRCE-DDS Agent following the XRCE-DDS agent tutorial
 Install the ROS 2 waypoint processor node. Copy the ros2_ws workspace folder to the home directory, build, and run waypoint navigation program as follows
 
 $ source /opt/ros/humble/setup.bash
-$ cd ~ros2_ws/
+$ cd ~/ros2_ws
 $ colcon build
 
 
@@ -25,10 +25,15 @@ Download gcs_heartbeat.py from the github repo, place it in any folder. It can b
 
 Open the fourth terminal to run the waypoint navigator node
 $ source /opt/ros/humble/setup.bash
-$ cd ~ros2_ws/
+$ cd ~/ros2_ws
+$ colcon build
 $ source install/setup.bash
-$ ros2 run uav_waypoint_navigation uav_waypoint_navigation
+% $ ros2 run uav_waypoint_navigation uav_waypoint_navigation
+$ ros2 run uav_waypoint_navigation uav_waypoint_navigator 0 0 0 -5 5 0 -5 5 5 -5 0 5 -5
 
+clean/rebuild workspace
+$ rm -rf build/ install/ log/
+$ colcon build
 
 Creating and adding new world
 
@@ -47,6 +52,25 @@ mhmr
 mhmr_lawn
 
 -----
-PX4_SYS_AUTOSTART=4001 PX4_SIM_MODEL=gz_x500 PX4_GZ_WORLD=mhmr ./build/px4_sitl_default/bin/px4 -i 1
+PX4_SYS_AUTOSTART=4001 PX4_GZ_WORLD=mhmr_lawn PX4_GZ_MODEL_POSE="-7,-7" PX4_SIM_MODEL=gz_x500  ./build/px4_sitl_default/bin/px4 -i 0
+% PX4_SYS_AUTOSTART=4001 PX4_SIM_MODEL=gz_x500 PX4_GZ_WORLD=mhmr ./build/px4_sitl_default/bin/px4 -i 1
+PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="-8,-6" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 1
+PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="-8,-8" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 2
 
-PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="0,1" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 2
+
+commander takeoff
+
+commander land
+
+commander status
+
+-----------------
+% uav_waypoint_navigation.py <uav_id> <x1> <y1> <z1> [<x2> <y2> <z2> ...]
+ros2 run uav_waypoint_navigation uav_waypoint_navigation 0 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+ros2 run uav_waypoint_navigation uav_waypoint_navigation 1 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+ros2 run uav_waypoint_navigation uav_waypoint_navigation 2 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+ros2 run uav_waypoint_navigation uav_waypoint_navigation 3 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+
+
+% run marl inference and fetch waypoint
+ros2 run uav_waypoint_navigation uav_waypoint_processor_marl

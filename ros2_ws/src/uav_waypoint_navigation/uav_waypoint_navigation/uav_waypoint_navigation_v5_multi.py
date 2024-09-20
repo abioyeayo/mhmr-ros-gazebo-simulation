@@ -6,7 +6,6 @@ from px4_msgs.msg import VehicleCommand, TrajectorySetpoint, OffboardControlMode
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 import math
 import sys
-import os
 
 
 class UAVWaypointNavigator(Node):
@@ -17,13 +16,8 @@ class UAVWaypointNavigator(Node):
 
         # Namespace for the UAV (e.g., uav1, uav2, uav3)
         self.namespace = f"/px4_{uav_id}"
-        self.uav_id = int(uav_id)
-        if self.uav_id == 0:
+        if uav_id == 0:
             self.namespace = f""
-        # self.namespace = f"/px4_1"
-        # self.namespace = f""
-
-        # os.system('ros2 topic echo /px4_1/fmu/out/vehicle_status')
 
         # Create publishers with the namespace
         self.command_pub = self.create_publisher(VehicleCommand, f"{self.namespace}/fmu/in/vehicle_command", 10)
@@ -33,7 +27,6 @@ class UAVWaypointNavigator(Node):
         self.trajectory_setpoint_pub = self.create_publisher(
             TrajectorySetpoint, f"{self.namespace}/fmu/in/trajectory_setpoint", 10
         )
-
 
         # Define a QoS profile compatible with the publisher
         qos_profile = QoSProfile(
@@ -120,7 +113,6 @@ class UAVWaypointNavigator(Node):
         )
         
         self.get_logger().info(f"Current vehicle distance from target: {distance}")
-        self.get_logger().info(f"{self.namespace}/fmu/out/vehicle_odometry")
 
         return distance < tolerance
 
@@ -139,8 +131,7 @@ class UAVWaypointNavigator(Node):
         msg.param1 = param1
         msg.param2 = param2
         msg.command = command
-        # msg.target_system = 1
-        msg.target_system = self.uav_id + 1
+        msg.target_system = 1
         msg.target_component = 1
         msg.source_system = 1
         msg.source_component = 1
