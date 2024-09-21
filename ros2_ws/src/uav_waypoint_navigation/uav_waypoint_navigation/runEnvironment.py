@@ -8,7 +8,7 @@ import sys
 
 
 filename = 'waypoint_data.txt'
-f = open(filename,'a')
+f = open(filename,'w')
 f.write('Model Inference begins\n')
 f.flush()
 #f.close()
@@ -92,8 +92,9 @@ if __name__ == '__main__':
             actions_dict = convert_actions_to_dict(actions)
             next_obs, rewards, terms, truncs, infos = env.step(CRL.unbatchify(actions, env))
             print(actions_dict)
-            f.write(actions_dict + '\n')
-            f.flush()
+            print(actions_dict, file=f)
+            #f.write(actions_dict)
+            #f.flush()
             
             env.show_grid(env.all_grids)
 
