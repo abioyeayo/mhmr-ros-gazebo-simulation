@@ -73,4 +73,8 @@ ros2 run uav_waypoint_navigation uav_waypoint_navigation 3 0 0 -5 5 0 -5 5 5 -5 
 
 
 % run marl inference and fetch waypoint
-ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
+$ source /opt/ros/humble/setup.bash
+$ cd ~/ros2_ws
+$ colcon build
+$ source install/setup.bash
+$ ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
