@@ -4,6 +4,14 @@ import ast
 import torch
 from CRL2_Swarm import Agent, CategoricalMasked
 import CRL2_Swarm as CRL
+import sys
+
+
+filename = 'waypoint_data.txt'
+f = open(filename,'a')
+f.write('Model Inference begins\n')
+f.flush()
+#f.close()
 
 def convert_actions_to_dict(actions):
     # Define the action mapping
@@ -84,6 +92,9 @@ if __name__ == '__main__':
             actions_dict = convert_actions_to_dict(actions)
             next_obs, rewards, terms, truncs, infos = env.step(CRL.unbatchify(actions, env))
             print(actions_dict)
+            f.write(actions_dict + '\n')
+            f.flush()
+            
             env.show_grid(env.all_grids)
 
             for agt in (agt for agt in terms if terms[agt] and agt not in dead_agents):
@@ -97,6 +108,8 @@ if __name__ == '__main__':
                     or env.agents == []
             ):
                 end_step = step
+
+                f.close()
 
                 break
     
