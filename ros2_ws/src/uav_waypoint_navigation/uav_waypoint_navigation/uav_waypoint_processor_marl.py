@@ -62,10 +62,16 @@ class UAVWaypointProcessorMARL(Node):
 
         self.timestamp = 0  # Time synchronization with PX4
 
+        # self.uavs_current_position = [
+        #     [-7.0, -7.0, 0.0],  # UAV1 x,y,z
+        #     [-9.0, -5.0, 0.0],  # UAV2
+        #     [-9.0, -9.0, 0.0]   # UAV3
+        # ]
+
         self.uavs_current_position = [
-            [-7.0, -7.0, 0.0],  # UAV1
-            [-9.0, -5.0, 0.0],  # UAV2
-            [-9.0, -9.0, 0.0]   # UAV3
+            [0.0, -8.0, 0.0],  # UAV1
+            [0.5, -8.0, 0.0],  # UAV2
+            [1.0, -8.0, 0.0]   # UAV3
         ]
 
         # self.uavs_next_waypoint = [
@@ -74,13 +80,20 @@ class UAVWaypointProcessorMARL(Node):
         #     [-9.0, -9.0, -5.0]   # UAV3
         # ]
 
+        # self.uavs_next_waypoint = [
+        #     [-1.0, -2.0, -5.5],  # UAV1
+        #     [-2.0, -2.0, -6.5],  # UAV2
+        #     [-3.0, -2.0, -7.5]   # UAV3
+        # ]
+
         self.uavs_next_waypoint = [
-            [-1.0, -2.0, -5.5],  # UAV1
-            [-2.0, -2.0, -6.5],  # UAV2
-            [-3.0, -2.0, -7.5]   # UAV3
+            [0.0, -8.0, -5.0],  # UAV1
+            [0.5, -8.0, -6.0],  # UAV2
+            [1.0, -8.0, -6.5]   # UAV3
         ]
 
-        os.system('python3 src/uav_waypoint_navigation/uav_waypoint_navigation/runEnvironment.py --drone_locations="[(1,1),(0,2),(0,0)]" --human_locations="[(4, 8), (6, 1)]"')
+        # os.system('python3 src/uav_waypoint_navigation/uav_waypoint_navigation/runEnvironment.py --drone_locations="[(1,1),(0,2),(0,0)]" --human_locations="[(4, 8), (6, 1)]"')
+        os.system('python3 src/uav_waypoint_navigation/uav_waypoint_navigation/runEnvironment.py --drone_locations="[(0,0),(0,1),(0,2)]" --human_locations="[(2, 6), (6, 4)]"')
 
         waypoint_data = open('waypoint_data.txt', 'r')    # point test p(3.68, 3.40,1.05)
         uav_waypoints = waypoint_data.readlines()
@@ -101,13 +114,13 @@ class UAVWaypointProcessorMARL(Node):
                     try:
                         uav_step_direction[x] = uav_direction["drone_" + str(x+1)]
                         if uav_step_direction[x] == "down":
-                            self.uavs_next_waypoint[x][1] = self.uavs_next_waypoint[x][1] + 2
+                            self.uavs_next_waypoint[x][1] = self.uavs_next_waypoint[x][1] + 2.6 # 2.0
                         elif uav_step_direction[x] == "up":
-                            self.uavs_next_waypoint[x][1] = self.uavs_next_waypoint[x][1] - 2
+                            self.uavs_next_waypoint[x][1] = self.uavs_next_waypoint[x][1] - 2.6 # 2.0
                         elif uav_step_direction[x] == "right":
-                            self.uavs_next_waypoint[x][0] = self.uavs_next_waypoint[x][0] + 2
+                            self.uavs_next_waypoint[x][0] = self.uavs_next_waypoint[x][0] + 1.8 # 2.0
                         elif uav_step_direction[x] == "left":
-                            self.uavs_next_waypoint[x][0] = self.uavs_next_waypoint[x][0] - 2
+                            self.uavs_next_waypoint[x][0] = self.uavs_next_waypoint[x][0] - 1.8 # 2.0
                         else:
                             print("Invalid step...")
                     except KeyError:
