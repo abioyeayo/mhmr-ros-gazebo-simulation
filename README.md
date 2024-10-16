@@ -6,9 +6,11 @@ Install the  Micro XRCE-DDS Agent following the XRCE-DDS agent tutorial
 
 Install the ROS 2 waypoint processor node. Copy the ros2_ws workspace folder to the home directory, build, and run waypoint navigation program as follows
 
+```console
 $ source /opt/ros/humble/setup.bash
 $ cd ~/ros2_ws
 $ colcon build
+```
 
 
 Open the first terminal
