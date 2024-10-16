@@ -14,24 +14,32 @@ $ colcon build
 
 
 Open the first terminal
+```console
 $ cd ~/PX4/PX4-Autopilot
 $ MicroXRCEAgent udp4 -p 8888
+```
 
 Open a second terminal to start the Micro XRCE-DDS Agent
+```console
 $ make px4_sitl gz_x500
+```
 
 Open a third terminal to run the GCS heartbeat script
+```console
 $ python3 gcs_heartbeat.py
+```
 
 Download gcs_heartbeat.py from the github repo, place it in any folder. It can be run from any folder.
 
 Open the fourth terminal to run the waypoint navigator node
+```console
 $ source /opt/ros/humble/setup.bash
 $ cd ~/ros2_ws
 $ colcon build
 $ source install/setup.bash
-% $ ros2 run uav_waypoint_navigation uav_waypoint_navigation
+# ros2 run uav_waypoint_navigation uav_waypoint_navigation
 $ ros2 run uav_waypoint_navigation uav_waypoint_navigator 0 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+```
 
 clean/rebuild workspace
 $ rm -rf build/ install/ log/
@@ -77,9 +85,11 @@ ros2 run uav_waypoint_navigation uav_waypoint_navigation 2 0 0 -5 5 0 -5 5 5 -5 
 ros2 run uav_waypoint_navigation uav_waypoint_navigation 3 0 0 -5 5 0 -5 5 5 -5 0 5 -5
 
 
-% run marl inference and fetch waypoint
+run marl inference and fetch waypoint
+```console
 $ source /opt/ros/humble/setup.bash
 $ cd ~/ros2_ws
 $ colcon build
 $ source install/setup.bash
 $ ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
+```
