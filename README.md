@@ -93,3 +93,7 @@ $ colcon build
 $ source install/setup.bash
 $ ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
 ```
+
+
+
+[![Watch the video](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1_finish.png)](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.mp4)
