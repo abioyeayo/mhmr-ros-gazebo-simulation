@@ -1,6 +1,9 @@
 # mhmr-ros-gazebo-simulation
 High fidelity simulation of multiple human multiple robots systems using ROS 2 (Humble Hawksbill) LTS and Gazebo Fortress (Ignition Fortress) LTS on Ubuntu 22.04.3 LTS (Jammy Jellyfish)
 
+<img src="https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.gif" width="80%" alt="mhmr scenario"/>
+
+
 Install PX4 following the PX4 install tutorial
 Install the  Micro XRCE-DDS Agent following the XRCE-DDS agent tutorial
 
@@ -95,10 +98,3 @@ $ ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
 ```
 
 
-
-[![MHMR Scenario](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1_finish.png)](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.gif)
-
-
-<video src='https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.mp4' width='400'></video>
-
-<img src="https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.gif" width="600"/>
