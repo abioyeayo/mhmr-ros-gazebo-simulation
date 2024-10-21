@@ -96,4 +96,9 @@ $ ros2 run uav_waypoint_navigation uav_waypoint_processor_marl
 
 
 
-[![Watch the video](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1_finish.png)](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.mp4)
+[![MHMR Scenario](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1_finish.png)](https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.gif)
+
+
+<video src='https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.mp4' width='400'></video>
+
+<img src="https://raw.githubusercontent.com/abioyeayo/mhmr-ros-gazebo-simulation/main/logs/mhmr_scenario1.gif" width="600"/>
