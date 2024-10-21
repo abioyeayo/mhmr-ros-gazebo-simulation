@@ -1,7 +1,7 @@
 # mhmr-ros-gazebo-simulation
 High fidelity simulation of multiple human multiple robots systems using ROS 2 (Humble Hawksbill) LTS and Gazebo Fortress (Ignition Fortress) LTS on Ubuntu 22.04.3 LTS (Jammy Jellyfish)
 
-<kbd><img src="logs/mhmr_scenario1.gif" width="960" alt="mhmr scenario"/></kbd>
+<kbd><img src="logs/mhmr_scenario1.gif" width="800" alt="mhmr scenario"/></kbd>
 
 Install PX4 following the PX4 install tutorial
 Install the  Micro XRCE-DDS Agent following the XRCE-DDS agent tutorial
