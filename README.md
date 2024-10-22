@@ -100,7 +100,7 @@ $ cp -r ~/PX4/mhmr-ros-gazebo-simulation/gazebo/ ~/PX4/PX4-Autopilot/Tools/simul
 ```
 
 
-### Running the Waypoint Navigator program
+### Running the Waypoint Navigation program
 
 
 Open the first terminal to start the Micro XRCE-DDS Agent
@@ -108,7 +108,7 @@ Open the first terminal to start the Micro XRCE-DDS Agent
 $ MicroXRCEAgent udp4 -p 8888
 ```
 
-Open a second terminal to to start the PX4 SITL Gazebo simulation instance
+Open a second terminal to start the PX4 SITL Gazebo simulation instance
 ```console
 $ cd ~/PX4/PX4-Autopilot
 $ make px4_sitl gz_x500
@@ -126,7 +126,7 @@ $ source /opt/ros/humble/setup.bash
 $ cd ~/ros2_ws
 $ colcon build
 $ source install/setup.bash
-$ ros2 run uav_waypoint_navigation uav_waypoint_navigator 0 0 0 -5 5 0 -5 5 5 -5 0 5 -5
+$ ros2 run uav_waypoint_navigation uav_waypoint_navigation 0 0 0 -5 5 0 -5 5 5 -5 0 5 -5
 ```
 
 
@@ -137,19 +137,19 @@ Open the first terminal to start the Micro XRCE-DDS Agent
 $ MicroXRCEAgent udp4 -p 8888
 ```
 
-Open a second terminal to to start the first PX4 SITL Gazebo simulation instance
+Open a second terminal to start the first PX4 SITL Gazebo simulation instance
 ```console
 $ cd ~/PX4/PX4-Autopilot
 $ PX4_SYS_AUTOSTART=4001 PX4_GZ_WORLD=mhmr_lawn PX4_GZ_MODEL_POSE="-7,-7" PX4_SIM_MODEL=gz_x500  ./build/px4_sitl_default/bin/px4 -i 0
 ```
 
-Open a third terminal to to start the second PX4 SITL Gazebo simulation instance
+Open a third terminal to start the second PX4 SITL Gazebo simulation instance
 ```console
 $ cd ~/PX4/PX4-Autopilot
 $ PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="-8,-6" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 1
 ```
 
-Open a fourth terminal to to start the third PX4 SITL Gazebo simulation instance
+Open a fourth terminal to start the third PX4 SITL Gazebo simulation instance
 ```console
 $ cd ~/PX4/PX4-Autopilot
 $ PX4_SYS_AUTOSTART=4001 PX4_GZ_MODEL_POSE="-8,-8" PX4_SIM_MODEL=gz_x500 ./build/px4_sitl_default/bin/px4 -i 2
