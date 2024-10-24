@@ -183,38 +183,24 @@ class Agent(nn.Module):
         super().__init__()
         if args.distinct_actor_critic:
             self.actor = nn.Sequential(
-                self._layer_init(nn.Conv2d(5, 64, 4, padding=1)),
-                # nn.BatchNorm2d(64),
-                # nn.ReLU(),
-                # self._layer_init(nn.Conv2d(64, 64, 3, padding=1)),
-                # nn.BatchNorm2d(64),
+                self._layer_init(nn.Conv2d(5, 16, 4, padding=1)),
                 nn.ReLU(),
-                self._layer_init(nn.Conv2d(64, 16, 3, padding=1)),
-                # nn.BatchNorm2d(16),
+                self._layer_init(nn.Conv2d(16, 16, 3, padding=1)),
                 nn.ReLU(),
                 nn.Flatten(),
-                self._layer_init(nn.Linear(1296, 256)),
+                self._layer_init(nn.Linear(1296, 128)),
                 nn.ReLU(),
-                # self._layer_init(nn.Linear(256, 256)),
-                # nn.ReLU(),
-                self._layer_init(nn.Linear(256, num_actions), std=0.01),
+                self._layer_init(nn.Linear(128, num_actions), std=0.01),
             )
             self.critic = nn.Sequential(
-                self._layer_init(nn.Conv2d(5, 64, 4, padding=1)),
-                # nn.BatchNorm2d(64),
-                # nn.ReLU(),
-                # self._layer_init(nn.Conv2d(64, 64, 3, padding=1)),
-                # nn.BatchNorm2d(64),
+                self._layer_init(nn.Conv2d(5, 16, 4, padding=1)),
                 nn.ReLU(),
-                self._layer_init(nn.Conv2d(64, 16, 3, padding=1)),
-                # nn.BatchNorm2d(16),
+                self._layer_init(nn.Conv2d(16, 16, 3, padding=1)),
                 nn.ReLU(),
                 nn.Flatten(),
-                self._layer_init(nn.Linear(1296, 256)),
-                # nn.ReLU(),
-                # self._layer_init(nn.Linear(256, 256)),
+                self._layer_init(nn.Linear(1296, 128)),
                 nn.ReLU(),
-                self._layer_init(nn.Linear(256, 1)),
+                self._layer_init(nn.Linear(128, 1)),
             )
         else:
             self.network = nn.Sequential(

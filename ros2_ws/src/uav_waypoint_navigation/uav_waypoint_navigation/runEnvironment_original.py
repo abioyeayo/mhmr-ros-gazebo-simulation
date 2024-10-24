@@ -13,15 +13,15 @@ f.write('Model Inference begins\n')
 f.flush()
 #f.close()
 
-def convert_actions_to_dict(actions, drone_names, active_agents):
+def convert_actions_to_dict(actions):
     # Define the action mapping
     action_map = {0: "up", 1: "right", 2: "down", 3: "left"}
     
-    # Create a dictionary to map the original drone IDs to their actions
+    # Create a dictionary to map drone IDs to their actions
     action_dict = {}
-    for i, action in enumerate(actions):
-        drone_name = drone_names[active_agents[i]]  # Use the persistent drone names list indexed by active agents
-        action_dict[drone_name] = action_map[action.item()]  # Convert tensor element to Python int and get action name
+    for i, action in enumerate(actions, 1):
+        drone_name = f"drone_{i}"
+        action_dict[drone_name] = action_map[action.item()]  # Convert tensor element to Pythopyn int and get action name
     
     return action_dict
 
@@ -72,12 +72,6 @@ if __name__ == '__main__':
     env = WorldEnv(n_drones=args.n_drones,drone_locations=args.drone_locations,n_humans=args.n_humans,human_locations=args.human_locations,targets=args.targets,max_x=args.max_x,max_y=args.max_y)
     next_obs, infos = env.reset()
     
-    # Create a list of drone names based on the number of drones
-    drone_names = [f"drone_{i+1}" for i in range(args.n_drones)]
-    
-    # Maintain a list of active agents by their original indices (0, 1, 2, ...)
-    active_agents = list(range(args.n_drones))
-    
     agent = Agent(4,args)
     agent.actor.load_state_dict(torch.load('src/uav_waypoint_navigation/uav_waypoint_navigation/actor.model', weights_only=True))
     agent.critic.load_state_dict(torch.load('src/uav_waypoint_navigation/uav_waypoint_navigation/critic.model', weights_only=True))
@@ -87,7 +81,6 @@ if __name__ == '__main__':
     with torch.no_grad():
         dead_agents = []
         for step in range(500):
-         
             try:
                 obs = CRL.batchify_obs(next_obs, device)
             except ValueError as e:
@@ -95,12 +88,9 @@ if __name__ == '__main__':
                 raise e
             
             masks = torch.tensor([env.get_action_masks(env.all_grids, env.agent_name_mapping[agt]) for agt in env.agents])
-            actions, logprobs, _, values = agent.get_action_and_value(obs, args, action_masks=masks, device=device)
-            
-            # Convert actions to a dictionary using the persistent drone names and active agents list
-            actions_dict = convert_actions_to_dict(actions, drone_names, active_agents)
+            actions, logprobs, _, values = agent.get_action_and_value(obs, args, action_masks=masks,device=device)
+            actions_dict = convert_actions_to_dict(actions)
             next_obs, rewards, terms, truncs, infos = env.step(CRL.unbatchify(actions, env))
-         
             print(actions_dict)
             print(actions_dict, file=f)
             #f.write(actions_dict)
@@ -108,23 +98,19 @@ if __name__ == '__main__':
             
             env.show_grid(env.all_grids)
 
-            # Remove dead agents from the environment but retain their original drone names
             for agt in (agt for agt in terms if terms[agt] and agt not in dead_agents):
                 dead_agents.append(agt)
                 env.agents.remove(agt)
 
-                # Remove the corresponding agent index from active_agents list
-                active_agents.remove(env.agent_name_mapping[agt])
-
-            # Check if all agents are done or if the environment is done
             if (
-                all([terms[a] for a in terms]) or
-                all([truncs[a] for a in truncs]) or
-                terms == [] or
-                env.agents == []
+                    all([terms[a] for a in terms])
+                    or all([truncs[a] for a in truncs])
+                    or terms == []
+                    or env.agents == []
             ):
                 end_step = step
 
                 f.close()
 
                 break
+    
